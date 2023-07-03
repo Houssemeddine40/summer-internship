@@ -1,17 +1,22 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.PetDto;
+import com.example.demo.dto.PetDtoMapper;
 import com.example.demo.model.Pet;
 import com.example.demo.repository.PetRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class PetServiceImp implements PetService{
    PetRepository petRepository ;
+   PetDtoMapper petDtoMapper;
 
 
 
@@ -19,14 +24,21 @@ public class PetServiceImp implements PetService{
 
 
     @Override
-    public Pet addPet(Pet pet) {
+    public PetDto addPet(PetDto petDto) {
+        Pet pet=new Pet();
+        pet.setName(petDto.name());
+        pet.setAge(petDto.age());
         petRepository.save(pet);
-        return pet;
+        return petDto;
     }
 
     @Override
-    public List<Pet> getAllPets() {
-        return petRepository.findAll();
+    public List<PetDto> getAllPets() {
+
+        return petRepository.findAll()
+                .stream()
+                .map(petDtoMapper)
+                .collect(Collectors.toList());
     }
 
     @Override

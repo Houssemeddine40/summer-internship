@@ -1,12 +1,14 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.dto.PetDto;
 import com.example.demo.model.Pet;
 import com.example.demo.service.PetService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 
 @RestController
@@ -17,14 +19,17 @@ public class PetController {
     PetService petService;
  // @PathVariable
     @PostMapping("/addPet")
-    Pet addPet(@RequestBody Pet pet){
-        System.out.println(pet.toString());
-        return petService.addPet(pet);
+    ResponseEntity<?> addPet(@RequestBody PetDto petDto){
+      //  System.out.println(pet.toString());
+        petService.addPet(petDto);
+        return ResponseEntity.ok().body("added successfuly");
     }
 
+
     @GetMapping("/getAll")
-    List<Pet> getAll(){
-        return petService.getAllPets();
+    ResponseEntity<?> getAll(){
+
+        return ResponseEntity.ok(petService.getAllPets());
     }
 
     @DeleteMapping("/{idPet}")
