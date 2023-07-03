@@ -5,24 +5,17 @@ import lombok.*;
 
 @Entity
 @Table
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @ToString
-public class Pet {
-
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private int age;
-
     private String name;
-
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "person_id",referencedColumnName = "id")
-    private Person person;
 
 
 }
